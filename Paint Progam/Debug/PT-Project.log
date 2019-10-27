@@ -1,0 +1,101 @@
+﻿  main.cpp
+  ApplicationManager.cpp
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\applicationmanager.cpp(47): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  GUI.cpp
+  ActionAddSquare.cpp
+  CSquare.cpp
+  CHexagon.cpp
+  CFigure.cpp
+  CEllipse.cpp
+  windowinput.cpp
+  mousequeue.cpp
+  keyqueue.cpp
+  image.cpp
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\image.cpp(115): warning C4018: '<': signed/unsigned mismatch
+  CMUgraphics.cpp
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(257): warning C4101: 'iX': unreferenced local variable
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(257): warning C4101: 'iY': unreferenced local variable
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(751): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\string.h(132): note: see declaration of 'strcpy'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(1164): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(1171): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(1202): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(1210): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\cmugraphics.cpp(1357): warning C4018: '>': signed/unsigned mismatch
+  auxil.cpp
+  ActionUndo.cpp
+  ActionToPlay.cpp
+  ActionToFront.cpp
+  ActionToDraw.cpp
+  ActionToBack.cpp
+  ActionSelect.cpp
+  Generating Code...
+  Compiling...
+  ActionSave.cpp
+  ActionRestart.cpp
+  ActionResize.cpp
+  ActionRedo.cpp
+  ActionNew.cpp
+  ActionMove.cpp
+  ActionLoad.cpp
+  ActionInfo.cpp
+  ActionHelp.cpp
+  ActionFillClr.cpp
+  ActionFigTypeFill.cpp
+  ActionFigType.cpp
+  ActionFigFill.cpp
+  ActionExit.cpp
+  ActionDrawClr.cpp
+  ActionDel.cpp
+  ActionBkClr.cpp
+  ActionAddHex.cpp
+  ActionAddElps.cpp
+  Generating Code...
+  jutils.c
+  jquant2.c
+  jquant1.c
+  jmemnobs.c
+  jmemmgr.c
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\jpeg\jmemmgr.c(1103): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdlib.h(1199): note: see declaration of 'getenv'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\jpeg\jmemmgr.c(1106): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(2261): note: see declaration of 'sscanf'
+  jidctred.c
+  jidctint.c
+  jidctfst.c
+  jidctflt.c
+  jerror.c
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\jpeg\jerror.c(169): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\jpeg\jerror.c(171): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(1772): note: see declaration of 'sprintf'
+  jdtrans.c
+  jdsample.c
+  jdpostct.c
+  jdphuff.c
+  jdmerge.c
+  jdmaster.c
+  jdmarker.c
+  jdmainct.c
+  jdinput.c
+  jdhuff.c
+  Generating Code...
+  Compiling...
+  jddctmgr.c
+  jdcolor.c
+  jdcoefct.c
+  jdatasrc.c
+  jdapistd.c
+  jdapimin.c
+  jcparam.c
+  jcomapi.c
+  jpegload.c
+d:\college\y3\spring 2018\fundamentals of computer programming\project\final phase deliverables\paint project\cmugraphicslib\jpegload.c(23): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.16299.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+  Generating Code...
+ActionAddElps.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  PT-Project.vcxproj -> D:\College\Y3\Spring 2018\Fundamentals of Computer Programming\Project\Final Phase Deliverables\Paint Project\.\Debug\PT Project.exe
