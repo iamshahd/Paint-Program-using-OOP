@@ -1,0 +1,124 @@
+#include "ActionFigFill.h"
+
+#include "..\ApplicationManager.h"
+
+#include "..\GUI\GUI.h"
+#include <string> 
+
+ActionFigFill::ActionFigFill(ApplicationManager * pApp) :Action(pApp)
+{}
+
+//Execute the action
+void ActionFigFill::Execute()
+{
+	GUI* pGUI = pManager->GetGUI();
+	pGUI->PrintMessage("You want to pick figures with the same fill color. Pick a specific figure.");
+	//int x, y;
+	//pGUI->pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+	//pGUI->LastClickedPoint.x = x;
+	//pGUI->LastClickedPoint.y = y;
+	//int fignum = pManager->FigCount;
+	//color fillclr;
+	//bool fill;
+	//int count = 0; //counts figures of selected type
+	//for (int i = fignum - 1; i >= 0; i--){
+	//	if (pManager->FigList[i]->IsInside(pGUI->LastClickedPoint)) {
+	//		if (pManager->FigList[i]->IsFilled()){
+	//			fillclr = pManager->FigList[i]->GetFillClr();
+	//			fill = true;
+	//		}
+	//		else
+	//		{
+	//			fill = false;
+	//		}
+	//		break;
+	//	}
+	//}
+	//for (int i = 0; i < fignum; i++){
+	//	if (fill)
+	//	{
+	//		if (pManager->FigList[i]->GetFillClr() == fillclr)
+	//		{
+	//			count++;
+	//		}
+	//	}
+	//	else if (!fill)
+	//	{
+	//		if (pManager->FigList[i]->IsFilled() == fill)
+	//		{
+	//			count++;
+	//		}
+	//	}
+	//	
+	//}
+	//pGUI->PrintMessage("Fill color selected. Pick figures of the same fill color.");
+	//int correct = 0;
+	//int incorrect = 0;
+	//for (int j = 0; j < count; j++)
+	//{
+	//	pGUI->pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+	//	pGUI->LastClickedPoint.x = x;
+	//	pGUI->LastClickedPoint.y = y;
+	//	for (int i = fignum - 1; i >= 0; i--){
+	//		if (pManager->FigList[i]->IsInside(pGUI->LastClickedPoint)) {
+	//			if (fill)
+	//			{
+	//				if (pManager->FigList[i]->GetFillClr() == fillclr)
+	//				{
+	//					correct++;
+	//				}
+	//				else if (pManager->FigList[i]->GetFillClr() != fillclr)
+	//				{
+	//					incorrect++;
+	//				}
+	//				//insert here the lines required to make the figure disappear
+	//				std::string msg;
+	//				std::string msg1 = "Correct picks: ";
+	//				std::string s1 = std::to_string(correct);
+	//				std::string msg2 = " & Incorrect picks : ";
+	//				std::string s2 = std::to_string(incorrect);
+	//				msg.append(msg1);
+	//				msg.append(s1);
+	//				msg.append(msg2);
+	//				msg.append(s2);
+	//				pGUI->PrintMessage(msg);
+	//				break;
+	//			}
+	//			else if (!fill)
+	//			{
+	//				if (pManager->FigList[i]->IsFilled() == fill)
+	//				{
+	//					correct++;
+	//				}
+	//				else if (pManager->FigList[i]->IsFilled() != fill)
+	//				{
+	//					incorrect++;
+	//				}
+	//				//insert here the lines required to make the figure disappear
+	//				std::string msg;
+	//				std::string msg1 = "Correct picks: ";
+	//				std::string s1 = std::to_string(correct);
+	//				std::string msg2 = " & Incorrect picks : ";
+	//				std::string s2 = std::to_string(incorrect);
+	//				msg.append(msg1);
+	//				msg.append(s1);
+	//				msg.append(msg2);
+	//				msg.append(s2);
+	//				pGUI->PrintMessage(msg);
+	//				break;
+	//			}
+	//		}
+	//	}
+	//}
+	//std::string msg2;
+	//std::string msg21 = "You have finished! Your total score is: Correct picks : ";
+	//std::string s21 = std::to_string(correct);
+	//std::string msg22 = " & Incorrect picks : ";
+	//std::string s22 = std::to_string(incorrect);
+	//msg2.append(msg21);
+	//msg2.append(s21);
+	//msg2.append(msg22);
+	//msg2.append(s22);
+	//pGUI->PrintMessage(msg2);
+
+}
