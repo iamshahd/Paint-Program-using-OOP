@@ -1,0 +1,783 @@
+#include "ApplicationManager.h"
+#include "Actions\ActionAddSquare.h"
+#include "Actions\ActionAddElps.h"
+#include "Actions\ActionAddHex.h"
+#include "Actions\ActionBkClr.h"
+#include "Actions\ActionFillClr.h"
+#include "Actions\ActionDrawClr.h"
+#include "Actions\ActionDel.h"
+#include "Actions\ActionExit.h"
+#include "Actions\ActionLoad.h"
+#include "Actions\ActionResize.h"
+#include "Actions\ActionSave.h"
+#include "Actions\ActionToBack.h"
+#include "Actions\ActionToFront.h"
+#include "Actions\ActionToPlay.h"
+
+#include "Actions\ActionSelect.h"
+
+#include "Actions\ActionFigType.h"
+#include "Actions\ActionFigFill.h"
+#include "Actions\ActionFigTypeFill.h"
+#include "Actions\ActionRestart.h"
+#include "Actions\ActionToDraw.h"
+
+#include "Actions\ActionMove.h"
+#include "Actions\ActionUndo.h"
+#include "Actions\ActionRedo.h"
+
+//Constructor
+ApplicationManager::ApplicationManager()
+{
+	//Create Input and output
+	pGUI = new GUI;	
+	
+	FigCount = 0;
+		
+	//Create an array of figure pointers and set them to NULL		
+	for(int i=0; i<MaxFigCount; i++)
+		FigList[i] = NULL;	
+}
+
+void ApplicationManager::Run()
+{
+	srand(time(0));
+	ActionType ActType;
+	do
+	{		
+		//1- Read user action
+		ActType = pGUI->MapInputToActionType();
+		pGUI->PrintMessage("The last point clicked is: ( "
+			+ to_string(pGUI->LastClickedPoint.x) + ", "
+			+ to_string(pGUI->LastClickedPoint.y) + " ).");
+
+		//2- Create the corresponding Action
+		Action *pAct = CreateAction(ActType);
+		
+		//3- Execute the action
+		ExecuteAction(pAct);
+
+		//4- Update the interface
+		UpdateInterface();	
+
+	}while(ActType != EXIT);
+	
+}
+
+
+//==================================================================================//
+//								Actions Related Functions							//
+//==================================================================================//
+//Creates an action
+Action* ApplicationManager::CreateAction(ActionType ActType) 
+{
+	Action* newAct = NULL;
+	
+	//According to Action Type, create the corresponding action object
+	switch (ActType)
+	{
+		case DRAW_SQUARE:
+			newAct = new ActionAddSquare(this);
+			break;
+
+		case DRAW_ELPS:
+	    	newAct = new ActionAddElps(this);
+			break;
+
+		case DRAW_HEX:
+			newAct = new ActionAddHex(this);
+			break;
+
+		case CHNG_DRAW_CLR:
+			newAct = new ActionDrawClr(this);
+			break;
+
+		case CHNG_FILL_CLR:
+			newAct = new ActionFillClr(this);
+			break;
+
+		case CHNG_BK_CLR:
+			newAct = new ActionBkClr(this);
+			break;
+
+		case DEL:
+			newAct = new ActionDel(this);
+			break;
+
+		case RESIZE:
+			newAct = new ActionResize(this);
+			break;
+
+		case SEND_BACK:
+			newAct = new ActionToBack(this);
+			break;
+
+		case BRNG_FRNT:
+			newAct = new ActionToFront(this);
+			break;
+
+		case SAVE:
+			newAct = new ActionSave(this);
+			break;
+
+		case LOAD:
+			newAct = new ActionLoad(this);
+			break;
+
+		case TO_PLAY:
+			newAct = new ActionToPlay(this);
+			break;
+
+		case TO_DRAW:
+			newAct = new ActionToDraw(this);
+			break;
+
+		case FIG_TYPE:
+			newAct = new ActionFigType(this);
+			break;
+
+		case FIG_FILL:
+			newAct = new ActionFigFill(this);
+			break;
+
+		case FIG_TYPE_FILL:
+			newAct = new ActionFigTypeFill(this);
+			break;
+				
+		//case RESTART:
+			//newAct = new ActionRestart(this);
+			//break;
+		case MOVE:
+			newAct = new ActionMove(this);
+			break;
+
+		case UNDO:
+			newAct = new ActionUndo(this);
+			break;
+
+		case REDO:
+			newAct = new ActionRedo(this);
+			break;
+
+		case EXIT:
+			newAct = new ActionExit(this);
+			break;
+
+		case STATUS:	//a click on the status bar ==> no action
+			return NULL;
+			break;
+
+		case DRAWING_AREA:
+			newAct = new ActionSelect(this);
+			break;
+	}	
+	return newAct;
+}
+//////////////////////////////////////////////////////////////////////
+//Executes the created Action
+void ApplicationManager::ExecuteAction(Action* &pAct) 
+{	
+	//Execute the created action
+	if(pAct != NULL)
+	{
+		pAct->Execute();//Execute
+		delete pAct;	//Action is not needed any more ==> delete it
+		pAct = NULL;
+	}
+}
+//==================================================================================//
+//						Figures Management Functions								//
+//==================================================================================//
+
+//Add a figure to the list of figures
+void ApplicationManager::AddFigure(CFigure* pFig)
+{
+	if(FigCount < MaxFigCount )
+		FigList[FigCount++] = pFig;	
+}
+////////////////////////////////////////////////////////////////////////////////////
+CFigure *ApplicationManager::GetFigure(int x, int y) const
+{
+	//If a figure is found return a pointer to it.
+	//if this point (x,y) does not belong to any figure return NULL
+
+
+	///Add your code here to search for a figure given a point x,y	
+
+	return NULL;
+}
+
+void ApplicationManager::SelectFigure(Point LastClickedPoint) //Select a figure given last clicked point
+{
+	for (int i=FigCount-1; i>=0; i--){
+		if (FigList[i]->IsInside(LastClickedPoint)) {
+				FigList[i]->SetSelected(!FigList[i]->IsSelected());
+				pGUI->PrintMessage(FigList[i]->FigureInfo());
+				break;
+		}
+	}
+}
+
+void ApplicationManager::DeleteSelectedFigures() //Delete selected figures
+{
+	int countsel = 0;
+	for (int i = 0; i < FigCount; i++)
+	{
+		bool sel = FigList[i]->IsSelected();
+		if (sel == 1)
+		{
+			countsel++;
+		}
+	}
+	if (countsel == 0)
+	{
+		pGUI->PrintMessage("No figure is selected. Please select at least a figure to delete.");
+	}
+	else if (countsel != 0)
+	{
+		for (int i = FigCount - 1; i >= 0; i--) {
+			if (FigList[i]->IsSelected()) {
+				delete FigList[i];
+				/*Shift elements in FigList so there are no "holes" where
+				the figure was deleted*/
+				for (int j = i + 1; j < FigCount; j++)
+				{
+					FigList[j - 1] = FigList[j];
+				}
+				FigCount--; //Decrement count of figures by 1 after deleting each figure
+			}
+		}
+	}
+}
+void ApplicationManager::BringToFront(int FigIndex) //Bring 1 selected figure to front
+{
+	if (FigIndex == FigCount - 1) { return; } //figure already in front
+	CFigure* FigToMove = FigList[FigIndex]; //temporarily hold the figure
+											//Shift backward all elements in front of said figure 
+	for (int i = FigIndex; i < FigCount - 1; i++) {
+		FigList[i] = FigList[i + 1];
+	}
+	//Insert FigToMove at the end of the figure list
+	FigList[FigCount - 1] = FigToMove;
+}
+
+void ApplicationManager::BringSelectedFiguresToFront() //Bring all selected figures to front
+{
+	int countsel = 0;
+
+	for (int i = 0; i < FigCount; i++)
+	{
+		bool sel = FigList[i]->IsSelected();
+		if (sel == 1)
+		{
+			countsel++;
+		}
+	}
+	if (countsel == 0)
+	{
+		pGUI->PrintMessage("No figure is selected. Please select a figure to bring to front.");
+	}
+	else if (countsel != 0)
+	{
+		for (int i = 0; i < FigCount; i++) {
+			if (FigList[i]->IsSelected()) {
+				BringToFront(i);
+			}
+		}
+	}
+}
+
+void ApplicationManager::SendToBack(int FigIndex) //Send 1 selected figure to back
+{
+	if (FigIndex == 0) { return; } //figure already at the back
+	CFigure* FigToMove = FigList[FigIndex]; //temporarily hold the figure
+											//Shift forward all elements behind said figure 
+	for (int i = FigIndex - 1; i >= 0; i--) {
+		FigList[i + 1] = FigList[i];
+	}
+	//Insert FigToMove at the head of the figure list
+	FigList[0] = FigToMove;
+
+}
+
+void ApplicationManager::SendSelectedFiguresToBack() //Send all selected figures to back
+{
+	int countsel = 0;
+
+	for (int i = 0; i < FigCount; i++)
+	{
+		bool sel = FigList[i]->IsSelected();
+		if (sel == 1)
+		{
+			countsel++;
+		}
+	}
+	if (countsel == 0)
+	{
+		pGUI->PrintMessage("No figure is selected. Please select a figure to send to back.");
+	}
+	else if (countsel != 0)
+	{
+		for (int i = FigCount - 1; i >= 0; i--) {
+			if (FigList[i]->IsSelected()) {
+				SendToBack(i);
+			}
+		}
+	}
+}
+
+
+void ApplicationManager::SaveAll(ofstream &outfile) //Save 
+{
+	color DrawColor = pGUI->getCrntDrawColor();
+	outfile << int(DrawColor.ucRed) << "\t" << int(DrawColor.ucGreen) << "\t" << int(DrawColor.ucBlue) << "\n";
+	color FillColor = pGUI->getCrntFillColor();
+	outfile << int(FillColor.ucRed) << "\t" << int(FillColor.ucGreen) << "\t" << int(FillColor.ucBlue) << "\n";
+	color BkGrndColor = pGUI->getCrntBkGrndColor();
+	outfile<< int(BkGrndColor.ucRed) << "\t" << int(BkGrndColor.ucGreen) << "\t" << int(BkGrndColor.ucBlue) << "\n";
+	outfile << FigCount << endl;
+	for (int i = 0; i < FigCount; i++) {
+		FigList[i]->Save(outfile,i);
+	}
+}
+
+void ApplicationManager::LoadAll(ifstream &infile, int FigureCount) //Load
+{
+	
+	for (int i = 0; i < MaxFigCount; i++) {
+		delete FigList[i];
+		FigList[i] = NULL;
+	}
+	FigCount = 0;
+	UpdateInterface();
+
+	int FigType, FigID;
+	for (int i = 0; i < FigureCount; i++) {
+		infile >> FigType;
+		infile >> FigID;
+		switch (FigType) {
+		case 1: //square
+		{
+			CSquare* S = new CSquare(infile);
+			AddFigure(S);
+		}
+		break;
+		case 2: //ellipse
+		{
+			CEllipse * E = new CEllipse(infile);
+			AddFigure(E);
+		}
+		break;
+		case 3: //hexagon
+		{
+			CHexagon * H = new CHexagon(infile);
+			AddFigure(H);
+		}
+		break;
+		}
+	}
+	
+}
+
+void ApplicationManager::ShowAllFigures()
+{
+	for (int i = 0; i < FigCount; i++)
+		FigList[i]->SetShown(true);
+}
+
+void ApplicationManager::DeselectAllFigures()
+{
+	for (int i = 0; i < FigCount; i++)
+		FigList[i]->SetSelected(false);
+}
+
+void ApplicationManager::ToResize(){
+	GUI* pGUI = GetGUI();
+	pGUI->pWind->DrawImage("images\\Other\\ResizeFactors.jpg", ITM_RESIZE * UI.MenuItemWidth, UI.ToolBarHeight, 208, 46); //draws an image at (x, y).  The width and height parameters can be used to scale the image.
+	pGUI->PrintMessage("Choose the ratio you want to resize to");
+	int x, y;
+	pGUI->pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+	pGUI->LastClickedPoint.x = x;
+	pGUI->LastClickedPoint.y = y;
+
+	double resfactor;
+	int countsel = 0;
+
+	for (int i = 0; i < FigCount; i++)
+	{
+		bool sel = FigList[i]->IsSelected();
+		if (sel == 1)
+		{
+			countsel++;
+		}
+	}
+	if (countsel == 0)
+	{
+		pGUI->PrintMessage("No figure is selected. Please select at least a figure to resize.");
+	}
+	else if (countsel != 0)
+	{
+		if (x >= ITM_RESIZE * UI.MenuItemWidth && x <= ITM_RESIZE * UI.MenuItemWidth + 52 && y >= UI.ToolBarHeight && y <= UI.ToolBarHeight + 46)
+		{
+			resfactor = 0.25;
+			pGUI->PrintMessage("You want to resize by 1/4");
+			int fignum = FigCount;
+			for (int i = 0; i < fignum; i++)
+			{
+				bool sel = FigList[i]->IsSelected();
+				if (sel == 1)
+				{
+					FigList[i]->Resize(resfactor);
+					pGUI->PrintMessage("Figure resized by 1/4");
+				}
+			}
+
+		}
+		else if (x >= ITM_RESIZE * UI.MenuItemWidth + 52 && x <= ITM_RESIZE * UI.MenuItemWidth + 104 && y >= UI.ToolBarHeight && y <= UI.ToolBarHeight + 46)
+		{
+			resfactor = 0.5;
+			pGUI->PrintMessage("You want to resize by 1/2");
+			int fignum = FigCount;
+			for (int i = 0; i < fignum; i++)
+			{
+				bool sel = FigList[i]->IsSelected();
+				if (sel == 1)
+				{
+					FigList[i]->Resize(resfactor);
+					pGUI->PrintMessage("Figure resized by 1/2");
+				}
+			}
+		}
+		else if (x >= ITM_RESIZE * UI.MenuItemWidth + 104 && x <= ITM_RESIZE * UI.MenuItemWidth + 156 && y >= UI.ToolBarHeight && y <= UI.ToolBarHeight + 46)
+		{
+			resfactor = 2;
+			pGUI->PrintMessage("You want to resize by 2");
+			int fignum = FigCount;
+			for (int i = 0; i < fignum; i++)
+			{
+				bool sel = FigList[i]->IsSelected();
+				if (sel == 1)
+				{
+					FigList[i]->Resize(resfactor);
+					pGUI->PrintMessage("Figure resized by 2");
+				}
+			}
+		}
+		else if (x >= ITM_RESIZE * UI.MenuItemWidth + 156 && x <= ITM_RESIZE * UI.MenuItemWidth + 208 && y >= UI.ToolBarHeight && y <= UI.ToolBarHeight + 46)
+		{
+			resfactor = 4;
+			pGUI->PrintMessage("You want to resize by 4");
+			int fignum = FigCount;
+			for (int i = 0; i < fignum; i++)
+			{
+				bool sel = FigList[i]->IsSelected();
+				if (sel == 1)
+				{
+					FigList[i]->Resize(resfactor);
+					pGUI->PrintMessage("Figure resized by 4");
+				}
+			}
+		}
+	}
+}
+
+void ApplicationManager::PlayFigType()
+{
+	int FigIndex = rand() % FigCount; //choose a random figure from FigList
+	while (!FigList[FigIndex]->IsShown()) {
+		FigIndex = rand() % FigCount; //choose a shown random figure from FigList
+	}
+	int type = FigList[FigIndex]->GetType(); //get type of randomly chosen figure
+	//prepare message to display
+	string message = "Click on all ";
+	switch (type) {
+	case 1: { message += "squares."; break; }
+	case 2: { message += "ellipses."; break; }
+	case 3: { message += "hexagons."; break; }
+	}
+	//count all figures of the same type
+	int SameTypeCount = 0;
+	for (int i = 0; i < FigCount; i++) {
+		if (FigList[i]->GetType() == type) {
+			SameTypeCount++;
+		}
+	}
+	pGUI->PrintMessage(message);
+
+	int correct = 0; //correct clicks
+	int incorrect = 0; //incorrect clicks
+	std::string msg;
+	std::string strCorrect;
+	std::string strIncorrect;
+
+	while (correct < SameTypeCount)
+	{
+		int x, y;
+		pGUI->pWind->WaitMouseClick(x,y);
+		pGUI->LastClickedPoint.x = x;
+		pGUI->LastClickedPoint.y = y;
+		
+		for (int i = FigCount - 1; i >= 0; i--) {
+			if ((FigList[i]->IsInside(pGUI->LastClickedPoint)) && (FigList[i]->IsShown())) {
+				if (FigList[i]->GetType() == type) {
+					correct++;
+					FigList[i]->SetShown(false); //hide figure
+					UpdateInterface();
+					break;
+				}
+				else if (!(FigList[i]->GetType() == type)) {
+					incorrect++;
+					break;
+				}
+			}
+		}
+		msg = "Correct picks : ";
+		strCorrect = std::to_string(correct);
+		strIncorrect = std::to_string(incorrect);
+		msg.append(strCorrect);
+		msg.append(", Incorrect picks : ");
+		msg.append(strIncorrect);
+		
+		pGUI->PrintMessage(msg);
+	}
+	
+	std::string msg2 = "You have finished! Your total score is: \t";
+	msg2.append(msg);
+	
+	pGUI->PrintMessage(msg2);
+}
+
+
+void ApplicationManager::PlayFigFill()
+{
+	int FigIndex = rand() % FigCount; //choose a random figure from FigList
+	while (!FigList[FigIndex]->IsShown())
+	{
+		FigIndex = rand() % FigCount; //choose a shown random figure from FigList
+	}
+	color fillclr;
+	int SameFillCount = 0; //counts figures of selected type
+
+	if (FigList[FigIndex]->IsFilled()) {
+		fillclr = FigList[FigIndex]->GetFillClr(); //get fill clr of randomly chosen figure
+	}
+
+	unsigned char R, G, B;
+
+	//prepare message to display
+	string message = "Click on all ";
+	if (!FigList[FigIndex]->IsFilled())
+	{
+		message += "not filled shapes.";
+	}
+	else if (FigList[FigIndex]->IsFilled())
+	{
+		R = fillclr.ucRed;
+		G = fillclr.ucGreen;
+		B = fillclr.ucBlue;
+
+		if (R == 255 && G == 255 && B == 255)
+		{
+			message += "white";
+		}
+		else if (R == 251 && G == 226 && B == 1)
+		{
+			message += "yellow";
+		}
+		else if (R == 255 && G == 90 && B == 0)
+		{
+			message += "orange";
+		}
+		else if (R == 216 && G == 9 && B == 15)
+		{
+			message += "red";
+		}
+		else if (R == 239 && G == 63 && B == 172)
+		{
+			message += "pink";
+		}
+		else if (R == 156 && G == 36 && B == 63)
+		{
+			message += "burgundy";
+		}
+		else if (R == 0 && G == 158 && B == 221)
+		{
+			message += "cyan";
+		}
+		else if (R == 1 && G == 37 && B == 149)
+		{
+			message += "blue";
+		}
+		else if (R == 73 && G == 20 && B == 160)
+		{
+			message += "violet";
+		}
+		else if (R == 0 && G == 117 && B == 0)
+		{
+			message += "dark green";
+		}
+		else if (R == 0 && G == 210 && B == 0)
+		{
+			message += "light green";
+		}
+		else if (R == 87 && G == 61 && B == 24)
+		{
+			message += "brown";
+		}
+		else if (R == 99 && G == 100 && B == 102)
+		{
+			message += "dark grey";
+		}
+		else if (R == 153 && G == 153 && B == 153)
+		{
+			message += "light grey";
+		}
+		else if (R == 254 && G == 255 && B == 179)
+		{
+			message += "cream";
+		}
+		else if (R == 0 && G == 0 && B == 0)
+		{
+			message += "black";
+		}
+
+		message += " colored shapes.";
+	}
+
+	for (int i = 0; i < FigCount; i++){
+		color left = FigList[i]->GetFillClr();
+		color right = fillclr;
+		if (FigList[FigIndex]->IsFilled())
+		{
+			if (left.ucRed == right.ucRed && left.ucGreen == right.ucGreen && left.ucBlue == right.ucBlue)
+			{
+				SameFillCount++;
+			}
+		}
+		else if (!FigList[FigIndex]->IsFilled())
+		{
+			if (!FigList[i]->IsFilled())
+			{
+				SameFillCount++;
+			}
+		}
+	}
+
+	pGUI->PrintMessage(message);
+
+	int correct = 0;
+	int incorrect = 0;
+	std::string msg;
+	std::string strCorrect;
+	std::string strIncorrect;
+
+	while (correct < SameFillCount)
+	{
+		int x, y;
+		pGUI->pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+		pGUI->LastClickedPoint.x = x;
+		pGUI->LastClickedPoint.y = y;
+
+		for (int i = FigCount - 1; i >= 0; i--){
+			color left = FigList[i]->GetFillClr();
+			color right = fillclr;
+			if (FigList[i]->IsInside(pGUI->LastClickedPoint) && FigList[i]->IsShown()) {
+				if (FigList[FigIndex]->IsFilled())
+				{
+					if (left.ucRed == right.ucRed && left.ucGreen == right.ucGreen && left.ucBlue == right.ucBlue)
+					{
+						correct++;
+						FigList[i]->SetShown(false); //hide figure
+						UpdateInterface();
+						break;
+					}
+					else if (left.ucRed != right.ucRed || left.ucGreen != right.ucGreen || left.ucBlue != right.ucBlue)
+					{
+						incorrect++;
+						break;
+					}
+				}
+				else if (!FigList[FigIndex]->IsFilled())
+				{
+					if (!FigList[i]->IsFilled())
+					{
+						correct++;
+						FigList[i]->SetShown(false); //hide figure
+						UpdateInterface();
+						break;
+					}
+					else if (FigList[i]->IsFilled())
+					{
+						incorrect++;
+						break;
+					}
+
+				}
+			}
+		}
+		msg = "Correct picks : ";
+		strCorrect = std::to_string(correct);
+		strIncorrect = std::to_string(incorrect);
+		msg.append(strCorrect);
+		msg.append(", Incorrect picks : ");
+		msg.append(strIncorrect);
+		pGUI->PrintMessage(msg);
+	}
+	std::string msg2 = "You have finished! Your total score is: \t";
+	msg2.append(msg);
+	pGUI->PrintMessage(msg2);
+}
+
+
+
+//==================================================================================//
+//							Interface Management Functions							//
+//==================================================================================//
+
+//Draw all figures on the user interface
+void ApplicationManager::UpdateInterface()
+{
+	
+	if (isplay)
+	{
+		//pGUI->CreateStatusBar();
+		pGUI->CreatePlayToolBar();
+		pGUI->ClearDrawArea();
+		for (int i = 0; i < FigCount; i++)
+		{
+			FigList[i]->DrawMe(pGUI); //Call Draw function (virtual member fn)
+		}
+	}
+	else
+	{
+		pGUI->ClearDrawArea();
+		//}
+		for (int i = 0; i < FigCount; i++)
+		{
+			FigList[i]->DrawMe(pGUI); //Call Draw function (virtual member fn)
+		}
+		//pGUI->CreateStatusBar();
+		pGUI->CreateDrawToolBar();
+	}
+}
+
+
+
+//void ApplicationManager::UpdateInterface() const
+//{	
+//	for(int i=0; i<FigCount; i++)
+//		FigList[i]->DrawMe(pGUI);		//Call Draw function (virtual member fn)
+//}
+////////////////////////////////////////////////////////////////////////////////////
+//Return a pointer to the interface
+GUI *ApplicationManager::GetGUI() const
+{	return pGUI; }
+////////////////////////////////////////////////////////////////////////////////////
+//Destructor
+ApplicationManager::~ApplicationManager()
+{
+	for(int i=0; i<FigCount; i++)
+		delete FigList[i];
+	delete pGUI;
+	
+}
