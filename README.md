@@ -7,3 +7,5 @@ You can find them in PaintFiles\UserManual.pdf
 
 
 We hope you enjoy our project!
+
+This project uses the graphics package CMUgraphicsLib, prepared by Carnegie Mellon University.
